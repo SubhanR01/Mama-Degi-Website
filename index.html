@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Mama Degi – charga and biryani slow-cooked in the brass degi. Sarsabzi Square, Kabul. Platters for 2 to 10+ guests.">
+<meta property="og:title" content="Mama Degi · ماما دیگی چرگه او بریانی">
+<meta property="og:description" content="Charga and biryani, slow-cooked in the brass degi. Sarsabzi Square, Kabul.">
+<meta property="og:image" content="img/hero-poster.jpg">
+<link rel="icon" href="img/logo.jpg">
+<title>Mama Degi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;1,400&family=Manrope:wght@400;600&family=Vazirmatn:wght@500;900&family=DM+Mono:wght@400&display=swap">
+<style>
+/* Layout: a single dark "brass kitchen" scroll — video hero, a pinned 3D platter, a horizontal platter rail, a tabbed menu board, a VIP finale. */
+:root{
+  --ink:#0c0906;          /* warm soot black */
+  --char:#16100a;         /* charred wood */
+  --char-2:#21170e;
+  --brass:#c9a15a;        /* polished brass */
+  --brass-hi:#f3d48e;
+  --saffron:#e59a2f;      /* saffron rice */
+  --chili:#a3301f;        /* dried chili */
+  --cream:#f2e7d3;        /* naan / steam */
+  --muted:#a8977c;
+  --line:rgba(201,161,90,.22);
+  --f-display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-fa:"Vazirmatn","Noto Naskh Arabic","Geeza Pro",Tahoma,sans-serif;
+  --f-mono:"DM Mono",ui-monospace,Menlo,monospace;
+  --gutter:clamp(16px,4vw,56px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--ink);overflow-x:clip}
+body{background:var(--ink);color:var(--cream);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{max-width:100%;display:block}
+a{color:inherit}
+::selection{background:var(--brass);color:var(--ink)}
+.wrap{padding-inline:var(--gutter);max-width:1440px;margin-inline:auto}
+.fa{font-family:var(--f-fa);direction:rtl}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass)}
+h1,h2,h3{font-family:var(--f-display);font-weight:500;line-height:1;margin:0;text-wrap:balance}
+h2{font-size:clamp(40px,7vw,104px);letter-spacing:-.02em}
+h2 em{font-style:italic;color:var(--brass-hi)}
+p{margin:0}
+:focus-visible{outline:2px solid var(--brass-hi);outline-offset:3px}
+
+/* ---------- Loader ---------- */
+.loader{position:fixed;inset:0;z-index:100;background:var(--ink);display:none;place-items:center}
+.js .loader{display:grid}
+.loader__ring{width:min(46vw,220px);aspect-ratio:1;position:relative}
+.loader__ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.loader__ring circle{fill:none;stroke:var(--brass);stroke-width:1.2;stroke-dasharray:629;stroke-dashoffset:629}
+.loader__ring img{position:absolute;inset:14%;width:72%;height:72%;object-fit:cover;border-radius:50%;opacity:0}
+.loader__count{position:absolute;bottom:var(--gutter);right:var(--gutter);font-family:var(--f-display);font-size:clamp(48px,10vw,120px);color:var(--brass);font-variant-numeric:tabular-nums;line-height:1}
+.loader__word{position:absolute;bottom:var(--gutter);left:var(--gutter);font-family:var(--f-mono);font-size:12px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+
+/* ---------- Cursor ---------- */
+.cursor{position:fixed;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--brass-hi);pointer-events:none;z-index:90;mix-blend-mode:difference;transition:width .3s,height .3s,margin .3s;display:none}
+.cursor.is-big{width:64px;height:64px;margin:-32px 0 0 -32px}
+@media (pointer:fine){.js .cursor{display:block}}
+
+/* ---------- Nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .4s,backdrop-filter .4s}
+.nav.is-solid{background:rgba(12,9,6,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav__in{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+.brand b{font-family:var(--f-display);font-size:22px;font-weight:600;letter-spacing:.01em}
+.brand span{font-family:var(--f-fa);font-size:14px;color:var(--brass)}
+.nav__links{display:flex;gap:28px;font-size:14px}
+.nav__links a{text-decoration:none;color:var(--muted);transition:color .2s}
+.nav__links a:hover{color:var(--cream)}
+@media (max-width:880px){.nav__links{display:none}}
+@media (max-width:600px){.brand span{display:none}.brand b{font-size:18px}.brand img{width:38px;height:38px}.nav .btn{padding:10px 16px;font-size:13px}
+  .hero__shade{background:linear-gradient(180deg,rgba(12,9,6,.55) 0%,rgba(12,9,6,.15) 30%,rgba(12,9,6,.75) 60%,rgba(12,9,6,.96) 100%)}}
+
+.btn{--b:var(--brass);display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;border:1px solid var(--b);font-weight:600;font-size:14px;letter-spacing:.02em;text-decoration:none;cursor:pointer;background:transparent;color:var(--cream);position:relative;overflow:hidden;isolation:isolate;transition:color .35s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--brass);transform:translateY(101%);transition:transform .45s cubic-bezier(.7,0,.2,1);z-index:-1}
+.btn:hover::before{transform:none}
+.btn:hover{color:var(--ink)}
+.btn--solid{background:var(--brass);color:var(--ink)}
+.btn--solid::before{background:var(--cream)}
+.btn svg{width:16px;height:16px}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;overflow:hidden;isolation:isolate}
+.hero__media{position:absolute;inset:0;z-index:-3}
+.hero__media img,.hero__media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero__media img{animation:kenburns 22s ease-in-out infinite alternate;transform-origin:55% 45%}
+.hero__media video{opacity:0;transition:opacity 1.2s}
+.hero__media.has-video video{opacity:1}
+.hero__media.has-video img{opacity:0;animation:none}
+@keyframes kenburns{from{transform:scale(1.08) rotate(-1deg)}to{transform:scale(1.22) rotate(1.5deg) translate(-2%,1%)}}
+#steam,#embers{position:absolute;inset:0;width:100%;height:100%;z-index:-2;pointer-events:none}
+#steam{opacity:.8}
+.hero__shade{position:absolute;inset:0;z-index:-1;background:
+  radial-gradient(120% 70% at 50% 110%,rgba(12,9,6,.95) 20%,transparent 60%),
+  linear-gradient(180deg,rgba(12,9,6,.55) 0%,transparent 25%,transparent 55%,rgba(12,9,6,.9) 100%)}
+.hero__flash{position:absolute;inset:0;z-index:-1;background:var(--ink);opacity:0;pointer-events:none;transition:opacity .5s}
+.hero__in{padding-block:120px clamp(32px,6vh,72px);display:grid;gap:28px}
+.hero__fa{font-family:var(--f-fa);font-weight:900;font-size:clamp(56px,11vw,170px);line-height:1.05;color:transparent;background:linear-gradient(100deg,#8a6526 0%,var(--brass-hi) 30%,#b0823a 55%,var(--brass-hi) 75%,#8a6526 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;animation:shimmer 7s linear infinite;direction:rtl;text-align:right;filter:drop-shadow(0 8px 30px rgba(0,0,0,.6))}
+@keyframes shimmer{to{background-position:-220% 0}}
+.hero__title{font-size:clamp(54px,12.5vw,210px);letter-spacing:-.035em;line-height:.86;font-weight:500}
+.hero__title em{font-style:italic;font-weight:400;color:var(--brass-hi)}
+.hero__title .ch{display:inline-block;will-change:transform}
+.hero__row{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:28px}
+.hero__lede{max-width:44ch;text-shadow:0 2px 18px rgba(0,0,0,.8);font-size:clamp(16px,1.4vw,19px);color:#e5d6bb}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero__meta{display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+.hero__meta b{color:var(--brass);font-weight:500}
+.scrollcue{display:inline-flex;align-items:center;gap:10px}
+.scrollcue i{width:1px;height:28px;background:linear-gradient(var(--brass),transparent);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- Marquee ---------- */
+.marquee{border-block:1px solid var(--line);overflow:hidden;padding-block:22px;background:var(--char)}
+.marquee__track{display:flex;width:max-content;gap:48px;animation:marq 38s linear infinite;will-change:transform}
+.marquee span{font-family:var(--f-display);font-style:italic;font-size:clamp(30px,4.5vw,64px);white-space:nowrap;color:var(--cream)}
+.marquee span.fa{font-style:normal;color:var(--brass);font-weight:700}
+.marquee i{align-self:center;width:12px;height:12px;transform:rotate(45deg);border:1px solid var(--brass);flex:none}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- Degi (pinned 3D platter) ---------- */
+.degi{position:relative;overflow-x:clip;padding-block:clamp(80px,12vw,160px) 0}
+.degi__head{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:clamp(32px,6vw,80px)}
+.degi__head p{color:var(--muted);max-width:46ch;justify-self:end}
+.degi__head p b{color:var(--cream);font-weight:600}
+@media (max-width:820px){.degi__head{grid-template-columns:1fr}.degi__head p{justify-self:start}}
+.degi__stage{position:relative;height:min(92vh,900px);display:grid;place-items:center;perspective:1400px;overflow:hidden}
+.plate{position:relative;width:min(78vw,640px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
+.plate__img{position:absolute;inset:0;border-radius:50%;background:url(img/platter-top.webp) 50% 47%/128% auto no-repeat;box-shadow:0 60px 120px -30px rgba(0,0,0,.9),0 0 0 1px rgba(243,212,142,.35),inset 0 0 60px rgba(0,0,0,.5)}
+.plate__rim{position:absolute;inset:-3.5%;border-radius:50%;border:1px dashed rgba(201,161,90,.35);transform:translateZ(-40px)}
+.plate__glow{position:absolute;inset:-25%;border-radius:50%;background:radial-gradient(circle,rgba(229,154,47,.28),transparent 62%);transform:translateZ(-120px);filter:blur(10px)}
+.note{position:absolute;max-width:230px;padding:14px 16px;border:1px solid var(--line);background:rgba(22,16,10,.94);border-radius:14px;font-size:14px;line-height:1.45;color:#e2d3b8}
+.note b{display:block;font-family:var(--f-display);font-size:20px;font-weight:500;color:var(--cream);margin-bottom:4px}
+.note .fa{color:var(--brass);font-size:13px;display:block;margin-bottom:2px}
+.degi__notes{display:contents}
+.note--a{left:var(--gutter);top:18%}
+.note--b{right:var(--gutter);top:34%}
+.note--c{left:calc(var(--gutter) + 4%);bottom:14%}
+@media (max-width:820px){
+  .degi__stage{height:auto;display:flex;flex-direction:column;gap:16px;padding-inline:var(--gutter);padding-bottom:40px;overflow:visible}
+  .note{position:static;max-width:none;width:100%}
+  .plate{width:min(88vw,460px);margin-block:20px 10px}
+}
+
+/* ---------- Platters rail ---------- */
+.platters{padding-block:clamp(100px,12vw,180px) 0;position:relative}
+.platters__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px;margin-bottom:48px}
+.platters__head p{color:var(--muted);max-width:40ch}
+.rail{overflow:hidden}
+.rail__track{display:flex;gap:28px;padding-inline:var(--gutter);width:max-content;padding-bottom:20px}
+.pcard{width:min(84vw,460px);flex:none;border:1px solid var(--line);border-radius:28px;background:linear-gradient(170deg,var(--char-2),var(--char));overflow:hidden;display:flex;flex-direction:column;transform-style:preserve-3d;transition:transform .25s ease-out,border-color .3s}
+.pcard:hover{border-color:rgba(243,212,142,.55)}
+.pcard__img{aspect-ratio:4/3;overflow:hidden;position:relative}
+.pcard__img img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.pcard:hover .pcard__img img{transform:scale(1.07)}
+.pcard__ppl{position:absolute;left:18px;top:18px;display:flex;align-items:baseline;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(12,9,6,.75);font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-hi)}
+.pcard__body{padding:24px 26px 28px;display:grid;gap:16px;flex:1}
+.pcard__top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.pcard h3{font-size:clamp(28px,3vw,38px)}
+.pcard h3 .fa{display:block;font-size:16px;color:var(--brass);margin-top:6px;font-weight:500}
+.price{font-family:var(--f-display);font-size:clamp(34px,3.6vw,46px);color:var(--brass-hi);white-space:nowrap;font-variant-numeric:lining-nums tabular-nums}
+.price small{font-family:var(--f-mono);font-size:13px;color:var(--muted);margin-left:4px}
+.pcard ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.pcard li{font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:#dccdb2}
+.rail__end{width:min(70vw,360px);flex:none;display:grid;align-content:center;gap:18px;padding:28px}
+.rail__end p{font-family:var(--f-display);font-size:clamp(28px,3vw,40px);line-height:1.1}
+@media (max-width:820px){
+  .rail{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .pcard,.rail__end{scroll-snap-align:center}
+}
+
+/* ---------- Kitchen (real photos) ---------- */
+.kitchen{padding-block:clamp(100px,12vw,180px) 0}
+.kitchen__grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:48px}
+.shot{position:relative;overflow:hidden;border-radius:22px;background:var(--char)}
+.shot img{width:100%;height:118%;object-fit:cover;will-change:transform}
+.shot figcaption{position:absolute;left:16px;bottom:14px;font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);background:rgba(12,9,6,.6);padding:6px 10px;border-radius:999px}
+.shot--a{grid-column:1/8;aspect-ratio:16/10}
+.shot--b{grid-column:8/13;aspect-ratio:4/5}
+.shot--c{grid-column:1/5;aspect-ratio:3/4}
+.shot--d{grid-column:5/13;aspect-ratio:16/9}
+.kitchen__grid figure{margin:0}
+@media (max-width:820px){.shot--a,.shot--b,.shot--c,.shot--d{grid-column:1/-1;aspect-ratio:4/3}}
+
+/* ---------- Menu board ---------- */
+.menu{padding-block:clamp(100px,12vw,180px) 0}
+.menu__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-block:40px 36px;position:relative}
+.tab{font:600 14px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;transition:all .3s}
+.tab[aria-selected="true"]{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+.tab:hover:not([aria-selected="true"]){color:var(--cream);border-color:var(--brass)}
+.board{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,4vw,64px);align-items:start}
+@media (max-width:900px){.board{grid-template-columns:1fr}}
+.list{display:grid;gap:0}
+.list__cols{display:grid;grid-template-columns:1fr 72px 72px;gap:12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--line)}
+.list__cols span:not(:first-child){text-align:right}
+.row{display:grid;grid-template-columns:1fr 72px 72px;gap:12px;align-items:baseline;padding-block:15px;border-bottom:1px solid var(--line)}
+.row.single{grid-template-columns:1fr 90px}
+.list__cols.single{grid-template-columns:1fr 90px}
+.row__name{min-width:0}
+.row__name b{font-weight:600;font-size:16px;display:block}
+.row__name .fa{color:var(--brass);font-size:14px;display:block;text-align:left;direction:rtl;unicode-bidi:plaintext}
+.row__p{font-family:var(--f-mono);font-size:15px;text-align:right;color:var(--brass-hi);font-variant-numeric:tabular-nums;white-space:nowrap}
+.row__p.na{color:#5e5242}
+.board__pic{position:sticky;top:110px;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:var(--char)}
+.board__pic img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.board__pic p{padding:16px 20px;color:var(--muted);font-size:14px}
+.panel[hidden]{display:none!important}
+.board__pics{display:grid;gap:16px;position:sticky;top:110px}
+.board__pics .board__pic{position:static}
+@media (max-width:820px){.board__pics{position:static;grid-template-columns:1fr 1fr;gap:10px}.board__pics .board__pic img{aspect-ratio:4/3}}
+.cur{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:14px}
+
+/* ---------- VIP ---------- */
+.vip{margin-top:clamp(100px,12vw,180px);position:relative;overflow:hidden;border-block:1px solid var(--line);background:radial-gradient(90% 80% at 80% 0%,rgba(229,154,47,.16),transparent 60%),var(--char)}
+.vip__in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center;padding-block:clamp(70px,9vw,130px)}
+@media (max-width:900px){.vip__in{grid-template-columns:1fr}}
+.crown{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border:1px solid var(--brass);border-radius:999px;font-family:var(--f-mono);font-size:12px;letter-spacing:.2em;color:var(--brass-hi);text-transform:uppercase}
+.vip h2{margin-block:22px 18px}
+.vip__price{font-family:var(--f-display);font-size:clamp(70px,12vw,180px);line-height:.9;letter-spacing:-.03em;color:transparent;background:linear-gradient(100deg,#8a6526,var(--brass-hi) 35%,#a97a32 60%,var(--brass-hi) 85%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;animation:shimmer 6s linear infinite;font-variant-numeric:lining-nums}
+.vip__price small{font-family:var(--f-mono);font-size:clamp(14px,1.4vw,18px);-webkit-text-fill-color:var(--muted);letter-spacing:.1em;margin-left:10px}
+.vip__for{color:var(--muted);margin-top:10px}
+.vip__list{columns:2;column-gap:28px;margin:30px 0 0;padding:0;list-style:none}
+.vip__list li{break-inside:avoid;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px;display:flex;gap:10px}
+.vip__list li span{color:var(--brass);font-family:var(--f-mono);font-size:13px;min-width:22px}
+@media (max-width:520px){.vip__list{columns:1}}
+.vip__pic{border-radius:28px;overflow:hidden;border:1px solid rgba(243,212,142,.4);box-shadow:0 40px 100px -30px rgba(229,154,47,.35);transform-style:preserve-3d;transition:transform .25s ease-out}
+.vip__pic img{width:100%;aspect-ratio:5/4;object-fit:cover}
+
+/* ---------- Promise ---------- */
+.promise{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-bottom:1px solid var(--line)}
+.promise div{padding:36px var(--gutter);border-right:1px solid var(--line);display:grid;gap:8px}
+.promise div:last-child{border-right:0}
+.promise b{font-family:var(--f-display);font-size:24px;font-weight:500}
+.promise .fa{color:var(--brass);font-size:15px;text-align:left}
+@media (max-width:820px){.promise{grid-template-columns:1fr 1fr}.promise div:nth-child(2){border-right:0}.promise div{border-bottom:1px solid var(--line)}}
+
+/* ---------- Visit / footer ---------- */
+.visit{padding-block:clamp(100px,14vw,200px) 40px;text-align:center;position:relative;overflow:hidden}
+.visit h2{font-size:clamp(46px,9vw,140px)}
+.visit p{color:var(--muted);max-width:48ch;margin:24px auto 36px}
+.visit__ctas{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+.handle{font-family:var(--f-mono);font-size:14px;color:var(--brass-hi);margin-top:22px;user-select:all}
+.bigfa{font-family:var(--f-fa);font-weight:900;font-size:clamp(90px,24vw,380px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(201,161,90,.35);margin-top:clamp(60px,8vw,110px);white-space:nowrap;direction:rtl;user-select:none}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-block:22px 34px;font-size:13px;color:var(--muted)}
+
+
+/* ---------- Contact ---------- */
+.contact{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px;margin-top:clamp(56px,7vw,90px);text-align:left}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
+.ccard{border:1px solid var(--line);border-radius:24px;padding:26px;background:linear-gradient(170deg,var(--char-2),var(--char));display:grid;gap:14px;align-content:start;min-width:0}
+.ccard .eyebrow{font-size:11px}
+.ccard address{font-style:normal;display:grid;gap:10px}
+.ccard .fa-addr{font-family:var(--f-fa);direction:rtl;text-align:right;font-size:18px;line-height:1.7;color:var(--cream)}
+.ccard .en{color:var(--muted);font-size:15px}
+.big{font-family:var(--f-display);font-size:clamp(26px,2.6vw,34px);line-height:1.1;color:var(--brass-hi);direction:ltr;unicode-bidi:isolate;overflow-wrap:anywhere;user-select:all}
+.big.mail{font-size:clamp(18px,1.7vw,22px);font-family:var(--f-mono)}
+.cbtns{display:flex;flex-wrap:wrap;gap:8px}
+.cbtns .btn{padding:10px 16px;font-size:13px}
+.copied{font-family:var(--f-mono);font-size:12px;color:var(--brass);min-height:1em}
+.socials{display:grid;gap:10px}
+.social{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;transition:border-color .3s,background .3s}
+.social:hover{border-color:var(--brass);background:rgba(201,161,90,.08)}
+.social svg{width:22px;height:22px;flex:none;color:var(--brass-hi)}
+.social b{display:block;font-weight:600}
+.social span{font-size:13px;color:var(--muted)}
+.foot a{color:var(--muted)}
+
+
+/* ---------- Mobile-first refinements ---------- */
+.mbar{display:none}
+@media (max-width:820px){
+  body{font-size:15.5px}
+  h2{font-size:clamp(38px,11vw,60px)}
+  .degi,.platters,.kitchen,.menu{padding-block:72px 0}
+  .vip{margin-top:72px}
+  .visit{padding-block:80px 120px}
+  /* hero */
+  .hero__in{padding-block:96px 28px;gap:18px}
+  .hero__fa{font-size:clamp(46px,15vw,72px);text-align:right}
+  .hero__title{font-size:clamp(64px,19vw,96px)}
+  .hero__ctas{width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .hero__ctas .btn{justify-content:center;padding:15px 12px}
+  .hero__meta{gap:8px 18px;font-size:11px}
+  .hero__meta .scrollcue{display:none}
+  /* degi notes become a swipe row */
+  .degi__stage{padding-inline:0}
+  .degi__notes{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px var(--gutter) 8px;width:100%;scrollbar-width:none}
+  .degi__notes::-webkit-scrollbar{display:none}
+  .degi__notes .note{flex:0 0 78%;scroll-snap-align:start}
+  /* platter rail */
+  .platters__head{margin-bottom:28px}
+  .rail__track{gap:14px}
+  .pcard{width:82vw;border-radius:22px}
+  .pcard__body{padding:18px 18px 22px;gap:12px}
+  .pcard h3{font-size:26px}
+  .price{font-size:32px}
+  .pcard li{font-size:12px;padding:5px 10px}
+  .rail__end{width:70vw}
+  .dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:all .3s}
+  .dots i.on{width:22px;border-radius:4px;background:var(--brass)}
+  /* kitchen: two-column mosaic */
+  .kitchen__grid{grid-template-columns:1fr 1fr;gap:10px;margin-top:28px}
+  .shot{border-radius:16px}
+  .shot--a{grid-column:1/-1;aspect-ratio:16/11}
+  .shot--b,.shot--c{grid-column:span 1;aspect-ratio:3/4}
+  .shot--d{grid-column:1/-1;aspect-ratio:16/11}
+  .shot figcaption{font-size:10px;left:10px;bottom:10px}
+  /* menu: sticky, swipeable tabs; picture becomes a banner on top */
+  .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:24px calc(-1 * var(--gutter)) 20px;padding:10px var(--gutter);position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:20;background:rgba(12,9,6,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none;padding:10px 16px;font-size:13px}
+  .board{display:flex;flex-direction:column-reverse;gap:18px}
+  .board>*{width:100%}
+  .board__pic{position:static;border-radius:18px}
+  .board__pic img{aspect-ratio:16/9}
+  .board__pic p{display:none}
+  .row{padding-block:13px;grid-template-columns:1fr 56px 56px}
+  .list__cols{grid-template-columns:1fr 56px 56px}
+  .row.single,.list__cols.single{grid-template-columns:1fr 64px}
+  .row__name b{font-size:15px}
+  /* vip */
+  .vip__price{font-size:clamp(68px,22vw,110px)}
+  .vip__pic{order:-1}
+  /* contact */
+  .ccard{padding:20px;border-radius:20px}
+  .cbtns .btn{flex:1 1 auto;justify-content:center}
+  .bigfa{font-size:28vw}
+  /* sticky bottom action bar */
+  .mbar{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(12,9,6,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  .mbar.show{transform:none}
+  .mbar a{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 8px;border-radius:14px;border:1px solid var(--line);text-decoration:none;font-weight:600;font-size:14px;color:var(--cream)}
+  .mbar a.go{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+  .mbar svg{width:18px;height:18px}
+  .foot{padding-bottom:96px}
+}
+
+/* reveal helpers (visible by default; JS animates from a visible state) */
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}
+.split .w>span{display:inline-block}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .loader{display:none}
+}
+</style>
+</head>
+<body>
+
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__ring">
+    <svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="100"/></svg>
+    <img src="img/logo.webp" alt="">
+  </div>
+  <div class="loader__word">Firing the degi</div>
+  <div class="loader__count" id="count">0</div>
+</div>
+<div class="cursor" id="cursor"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top" aria-label="Mama Degi home">
+      <img src="img/logo.webp" alt="Mama Degi logo">
+      <b>Mama Degi</b><span>ماما دیگی</span>
+    </a>
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#degi">The Degi</a><a href="#platters">Platters</a><a href="#menu">Menu</a><a href="#vip">VIP</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn--solid magnetic" href="#contact">Order a platter</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" aria-label="Mama Degi">
+    <div class="hero__media" id="heroMedia">
+      <img id="heroImg" src="img/hero-poster.webp" alt="Brass platter of degi chicken, biryani rice and salad on a dark wooden table">
+      <video id="heroVideo" muted playsinline preload="auto" aria-hidden="true"></video>
+    </div>
+    <canvas id="steam" aria-hidden="true"></canvas>
+    <canvas id="embers" aria-hidden="true"></canvas>
+    <div class="hero__shade"></div>
+    <div class="hero__flash" id="flash"></div>
+
+    <div class="wrap hero__in">
+      <div class="hero__fa" aria-hidden="true">ماما دیگی</div>
+      <h1 class="hero__title" id="heroTitle">Mama <em>Degi</em></h1>
+      <div class="hero__row">
+        <p class="hero__lede">Charga and biryani, slow-cooked in the brass degi and served on platters made for sharing. From a table for two to a feast for ten.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--solid magnetic" href="#platters">See the platters
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          <a class="btn magnetic" href="#menu">Full menu</a>
+        </div>
+      </div>
+      <div class="hero__meta">
+        <span><b>چرگه</b> Charga</span><span><b>بریانی</b> Biryani</span><span><b>کباب</b> Kabab</span>
+        <span class="scrollcue"><i></i>Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marq">
+      <span>Mama Degi</span><i></i><span class="fa">چرگه او بریانی</span><i></i><span>Charga</span><i></i><span class="fa">مرغ دیگی</span><i></i><span>Biryani</span><i></i><span class="fa">کباب مخصوص</span><i></i><span>Sheer khurma</span><i></i>
+      <span>Mama Degi</span><i></i><span class="fa">چرگه او بریانی</span><i></i><span>Charga</span><i></i><span class="fa">مرغ دیگی</span><i></i><span>Biryani</span><i></i><span class="fa">کباب مخصوص</span><i></i><span>Sheer khurma</span><i></i>
+    </div>
+  </div>
+
+  <!-- DEGI -->
+  <section class="degi" id="degi">
+    <div class="wrap degi__head">
+      <div>
+        <p class="eyebrow">01 · The degi</p>
+        <h2 class="split" style="margin-top:18px">Cooked in the degi.<br><em>Served on brass.</em></h2>
+      </div>
+      <p>A <b>degi</b> is the heavy, round-bellied pot our chicken is slow-cooked in. The chicken is roasted until the spices darken and the edges char, then laid over saffron biryani on a hammered brass tray.</p>
+    </div>
+    <div class="degi__stage" id="degiStage">
+      
+      <div class="plate" id="plate">
+        <div class="plate__glow"></div>
+        <div class="plate__rim"></div>
+        <div class="plate__img" role="img" aria-label="Top view of a Mama Degi platter"></div>
+      </div>
+      <div class="degi__notes"><div class="note note--a"><span class="fa">مرغ دیگی</span><b>Degi chicken</b>Whole chicken, deep-spiced and roasted until the skin crackles.</div><div class="note note--b"><span class="fa">بریانی</span><b>Biryani rice</b>Long grains, half saffron gold, half white, cooked to stay separate.</div><div class="note note--c"><span class="fa">سالات</span><b>Fresh salad</b>Crisp lettuce, onion rings, olives and lemon to cut the richness.</div></div>
+      
+      
+    </div>
+  </section>
+
+  <!-- PLATTERS -->
+  <section class="platters" id="platters">
+    <div class="wrap platters__head">
+      <div>
+        <p class="eyebrow">02 · Platters</p>
+        <h2 class="split" style="margin-top:18px">One tray. <em>Everyone</em> eats.</h2>
+      </div>
+      <p>Every platter comes with biryani, degi chicken, our special kabab, chutney and naan. Pick the size of your table.</p>
+    </div>
+    <div class="rail" id="rail">
+      <div class="rail__track" id="railTrack">
+        <article class="pcard tilt">
+          <div class="pcard__img"><img src="img/n-p2.webp" alt="Platter for two" loading="lazy" decoding="async"><span class="pcard__ppl">For 2 people</span></div>
+          <div class="pcard__body">
+            <div class="pcard__top"><h3>Platter for Two<span class="fa">پلیتر ۲ نفره</span></h3><div class="price">800<small>AF</small></div></div>
+            <ul><li>1 plate biryani</li><li>1 degi chicken</li><li>Special kabab</li><li>2 Pepsi</li><li>Salad</li><li>Chutney</li><li>Naan</li></ul>
+          </div>
+        </article>
+        <article class="pcard tilt">
+          <div class="pcard__img"><img src="img/n-p6.webp" alt="Platter for six" loading="lazy" decoding="async"><span class="pcard__ppl">For 6 people</span></div>
+          <div class="pcard__body">
+            <div class="pcard__top"><h3>Platter for Six<span class="fa">پلیتر ۶ نفره</span></h3><div class="price">1,600<small>AF</small></div></div>
+            <ul><li>2 plates biryani</li><li>2 degi chickens</li><li>2 plates special kabab</li><li>Sheer khurma</li><li>Special chutney</li><li>Vegetables</li><li>Soft drinks</li><li>Naan</li></ul>
+          </div>
+        </article>
+        <article class="pcard tilt">
+          <div class="pcard__img"><img src="img/n-p10.webp" alt="Platter for ten" loading="lazy" decoding="async"><span class="pcard__ppl">For 10 people</span></div>
+          <div class="pcard__body">
+            <div class="pcard__top"><h3>Platter for Ten<span class="fa">پلیتر ۱۰ نفره</span></h3><div class="price">2,900<small>AF</small></div></div>
+            <ul><li>3 plates biryani</li><li>3 degi chickens</li><li>3 plates special kabab</li><li>Beef kabab</li><li>Chicken handi</li><li>Vegetables</li><li>Sheer khurma</li><li>Special chutney</li><li>Pepsi</li><li>Fruit salad</li><li>Naan</li></ul>
+          </div>
+        </article>
+        <article class="pcard tilt">
+          <div class="pcard__img"><img src="img/n-vip.webp" alt="Mama Degi platter collection" loading="lazy" decoding="async"><span class="pcard__ppl">10+ people</span></div>
+          <div class="pcard__body">
+            <div class="pcard__top"><h3>VIP Platter<span class="fa">پلیتر خاص (VIP) ماما</span></h3><div class="price">10,000<small>AF</small></div></div>
+            <ul><li>4 degi chickens</li><li>Kabuli pulao</li><li>Chicken handi 2 kg</li><li>Mama special firni</li><li>Honey teas</li></ul>
+            <a class="btn" href="#vip" style="justify-self:start">See everything inside</a>
+          </div>
+        </article>
+        <div class="rail__end">
+          <p>Big family? Office lunch? Tell us your headcount.</p>
+          <a class="btn btn--solid magnetic" href="https://wa.me/93772683533" target="_blank" rel="noopener">Message us on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+  </section>
+
+  <!-- KITCHEN -->
+  <section class="kitchen wrap" aria-labelledby="kitchenTitle">
+    <p class="eyebrow">03 · From our kitchen</p>
+    <h2 id="kitchenTitle" class="split" style="margin-top:18px">Real trays, <em>real tables.</em></h2>
+    <div class="kitchen__grid">
+      <figure class="shot shot--a"><img class="para" src="img/tikka.webp" alt="Tikka and spiced chicken over biryani on a brass tray" loading="lazy" decoding="async"><figcaption>Tikka & spiced chicken</figcaption></figure>
+      <figure class="shot shot--b"><img class="para" src="img/shake.webp" alt="Mama milkshake with wafer roll and sprinkles" loading="lazy" decoding="async"><figcaption>Mama shake</figcaption></figure>
+      <figure class="shot shot--c"><img class="para" src="img/shakes-wall.webp" alt="Five milkshakes in front of the Mama Degi sign" loading="lazy" decoding="async"><figcaption>Our wall</figcaption></figure>
+      <figure class="shot shot--d"><img class="para" src="img/platter-home.webp" alt="Family platter with degi chicken, rice and salad" loading="lazy" decoding="async"><figcaption>Family platter</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu wrap" id="menu">
+    <div class="menu__head">
+      <div>
+        <p class="eyebrow">04 · The menu</p>
+        <h2 class="split" style="margin-top:18px">Morning to <em>midnight.</em></h2>
+      </div>
+      <p style="color:var(--muted);max-width:38ch">Prices in Afghani. Drinks come in medium and large.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Menu categories">
+      <button class="tab" role="tab" id="t-street" aria-controls="p-street" aria-selected="true">Shawarma & burgers</button>
+      <button class="tab" role="tab" id="t-shakes" aria-controls="p-shakes" aria-selected="false">Milkshakes</button>
+      <button class="tab" role="tab" id="t-juice" aria-controls="p-juice" aria-selected="false">Juices & fruit</button>
+      <button class="tab" role="tab" id="t-tea" aria-controls="p-tea" aria-selected="false">Tea</button>
+      <button class="tab" role="tab" id="t-breakfast" aria-controls="p-breakfast" aria-selected="false">Breakfast</button>
+    </div>
+
+    <div class="panel" id="p-street" role="tabpanel" aria-labelledby="t-street">
+      <div class="board">
+        <div class="list">
+          <div class="list__cols single"><span>Shawarma</span><span>AF</span></div>
+          <div class="row single"><div class="row__name"><b>Shawarma, medium</b><span class="fa">شورمه متوسط</span></div><div class="row__p">100</div></div>
+          <div class="row single"><div class="row__name"><b>Shawarma, large</b><span class="fa">شورمه بزرگ</span></div><div class="row__p">150</div></div>
+          <div class="list__cols single" style="margin-top:28px"><span>Burgers</span><span>AF</span></div>
+          <div class="row single"><div class="row__name"><b>Burger, simple</b><span class="fa">برگر ساده</span></div><div class="row__p">50</div></div>
+          <div class="row single"><div class="row__name"><b>Burger, medium</b><span class="fa">برگر متوسط</span></div><div class="row__p">100</div></div>
+          <div class="row single"><div class="row__name"><b>Burger, large</b><span class="fa">برگر بزرگ</span></div><div class="row__p">150</div></div>
+        </div>
+        <div class="board__pics"><figure class="board__pic" style="margin:0"><img src="img/n-shawarma.webp" alt="Shawarma wraps on a wooden board" loading="lazy" decoding="async"><p>Wrapped to order, grilled on the flat-top.</p></figure>
+        <figure class="board__pic board__pic--2" style="margin:0"><img src="img/n-burger.webp" alt="Three burgers in small, medium and large" loading="lazy" decoding="async"><p>Simple, medium or large.</p></figure></div>
+      </div>
+    </div>
+
+    <div class="panel" id="p-shakes" role="tabpanel" aria-labelledby="t-shakes" hidden>
+      <div class="board">
+        <div class="list">
+          <div class="list__cols"><span>Milkshake</span><span>M</span><span>L</span></div>
+          <div class="row"><div class="row__name"><b>Mama Majoon shake</b><span class="fa">میلک شیک معجون ماما</span></div><div class="row__p">200</div><div class="row__p">300</div></div>
+          <div class="row"><div class="row__name"><b>Mama milkshake juice</b><span class="fa">جوس میلک شیک ماما</span></div><div class="row__p">200</div><div class="row__p">250</div></div>
+          <div class="row"><div class="row__name"><b>Banana</b><span class="fa">میلک شیک کیله</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+          <div class="row"><div class="row__name"><b>Cold coffee shake</b><span class="fa">شیک کافی سرد</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+          <div class="row"><div class="row__name"><b>Oreo biscuit</b><span class="fa">میلک شیک وریو بسکیت</span></div><div class="row__p">200</div><div class="row__p na">—</div></div>
+          <div class="row"><div class="row__name"><b>Chocolate</b><span class="fa">میلک شیک چاکلیت</span></div><div class="row__p">200</div><div class="row__p na">—</div></div>
+          <div class="row"><div class="row__name"><b>Pineapple</b><span class="fa">میلک شیک آناناس</span></div><div class="row__p">200</div><div class="row__p">250</div></div>
+          <div class="row"><div class="row__name"><b>Pear</b><span class="fa">میلک شیک امروت</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+          <div class="row"><div class="row__name"><b>Mango</b><span class="fa">میلک شیک ام</span></div><div class="row__p">200</div><div class="row__p">250</div></div>
+          <div class="row"><div class="row__name"><b>Mixed</b><span class="fa">میلک شیک مکس</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+          <div class="row"><div class="row__name"><b>Avocado</b><span class="fa">میلک شیک اوکادو</span></div><div class="row__p">200</div><div class="row__p">150</div></div>
+          <div class="row"><div class="row__name"><b>Peach</b><span class="fa">میلک شیک شفتالو</span></div><div class="row__p">200</div><div class="row__p">250</div></div>
+          <div class="row"><div class="row__name"><b>Kiwi</b><span class="fa">میلک شیک کیوی</span></div><div class="row__p">150</div><div class="row__p">200</div></div>
+        </div>
+        <figure class="board__pic" style="margin:0"><img src="img/shake.webp" alt="Mama milkshake with wafer roll" loading="lazy" decoding="async"><p>Topped with chocolate, sprinkles and a wafer roll.</p></figure>
+      </div>
+    </div>
+
+    <div class="panel" id="p-juice" role="tabpanel" aria-labelledby="t-juice" hidden>
+      <div class="board">
+        <div class="list">
+          <div class="list__cols"><span>Fresh juice</span><span>M</span><span>L</span></div>
+          <div class="row"><div class="row__name"><b>Mama mix</b><span class="fa">جوس مکس ماما</span></div><div class="row__p">150</div><div class="row__p">200</div></div>
+          <div class="row"><div class="row__name"><b>Pineapple</b><span class="fa">جوس آناناس</span></div><div class="row__p">200</div><div class="row__p">250</div></div>
+          <div class="row"><div class="row__name"><b>Watermelon</b><span class="fa">جوس تربوز</span></div><div class="row__p">100</div><div class="row__p na">—</div></div>
+          <div class="row"><div class="row__name"><b>Orange</b><span class="fa">جوس مالته</span></div><div class="row__p">150</div><div class="row__p">200</div></div>
+          <div class="row"><div class="row__name"><b>Pomegranate</b><span class="fa">جوس انار</span></div><div class="row__p">150</div><div class="row__p">200</div></div>
+          <div class="row"><div class="row__name"><b>Lemon mint (mojito)</b><span class="fa">جوس لیمو نعنا (موهیتو)</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+          <div class="row"><div class="row__name"><b>Apple</b><span class="fa">جوس سیب</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+          <div class="row"><div class="row__name"><b>Lemon basil</b><span class="fa">جوس لیمو ریحان</span></div><div class="row__p">100</div><div class="row__p na">—</div></div>
+          <div class="row"><div class="row__name"><b>Margarita</b><span class="fa">جوس مارگریتا</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+          <div class="list__cols" style="margin-top:28px"><span>Fruit</span><span>M</span><span>L</span></div>
+          <div class="row"><div class="row__name"><b>Fresh fruit salad</b><span class="fa">فروت سالات میوه تازه</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+          <div class="row"><div class="row__name"><b>Fresh fruit chaat</b><span class="fa">فروت چات میوه تازه</span></div><div class="row__p">100</div><div class="row__p">150</div></div>
+        </div>
+        <figure class="board__pic" style="margin:0"><img src="img/n-juice.webp" alt="Glasses of fresh juice with fruit" loading="lazy" decoding="async"><p>Pressed fresh: pineapple, watermelon, pomegranate, mint lemon.</p></figure>
+      </div>
+    </div>
+
+    <div class="panel" id="p-tea" role="tabpanel" aria-labelledby="t-tea" hidden>
+      <div class="board">
+        <div class="list">
+          <div class="list__cols single"><span>Tea</span><span>AF</span></div>
+          <div class="row single"><div class="row__name"><b>Farzana tea</b><span class="fa">چای فرزانه</span></div><div class="row__p">100</div></div>
+          <div class="row single"><div class="row__name"><b>Saffron tea</b><span class="fa">چای زعفران</span></div><div class="row__p">100</div></div>
+          <div class="row single"><div class="row__name"><b>Orange & honey tea</b><span class="fa">چای مالته-عسل</span></div><div class="row__p">100</div></div>
+          <div class="row single"><div class="row__name"><b>Lemon & honey tea</b><span class="fa">چای لیمو-عسل</span></div><div class="row__p">100</div></div>
+          <div class="row single"><div class="row__name"><b>Green tea with cardamom</b><span class="fa">چای سبز هیل دار</span></div><div class="row__p">50</div></div>
+          <div class="row single"><div class="row__name"><b>Black tea</b><span class="fa">چای سیاه</span></div><div class="row__p">50</div></div>
+        </div>
+        <figure class="board__pic" style="margin:0"><img src="img/n-tea.webp" alt="Cups of black, saffron and green tea" loading="lazy" decoding="async"><p>The right way to finish a platter.</p></figure>
+      </div>
+    </div>
+
+    <div class="panel" id="p-breakfast" role="tabpanel" aria-labelledby="t-breakfast" hidden>
+      <div class="board">
+        <div class="list">
+          <div class="list__cols single"><span>Paratha</span><span>AF</span></div>
+          <div class="row single"><div class="row__name"><b>Plain paratha</b><span class="fa">پراته ساده</span></div><div class="row__p">20</div></div>
+          <div class="row single"><div class="row__name"><b>Egg paratha</b><span class="fa">پراته تخم مرغ</span></div><div class="row__p">50</div></div>
+          <div class="row single"><div class="row__name"><b>Anda paratha</b><span class="fa">پراته اندا</span></div><div class="row__p">40</div></div>
+          <div class="row single"><div class="row__name"><b>Cheese paratha</b><span class="fa">پراته پنیر</span></div><div class="row__p">80</div></div>
+          <div class="row single"><div class="row__name"><b>Malai paratha</b><span class="fa">پراته ملایی</span></div><div class="row__p">80</div></div>
+          <div class="row single"><div class="row__name"><b>Chocolate paratha</b><span class="fa">پراته چاکلیت</span></div><div class="row__p">100</div></div>
+          <div class="row single"><div class="row__name"><b>Meat paratha</b><span class="fa">پراته گوشت</span></div><div class="row__p">120</div></div>
+          <div class="row single"><div class="row__name"><b>Four-nut paratha</b><span class="fa">پراته چهارمغز</span></div><div class="row__p">120</div></div>
+          <div class="list__cols single" style="margin-top:28px"><span>Eggs, tea & coffee</span><span>AF</span></div>
+          <div class="row single"><div class="row__name"><b>Plain egg</b><span class="fa">ساده اندا</span></div><div class="row__p">20</div></div>
+          <div class="row single"><div class="row__name"><b>Omelette</b><span class="fa">آملیت اندا</span></div><div class="row__p">30</div></div>
+          <div class="row single"><div class="row__name"><b>Karak tea</b><span class="fa">چای کرک</span></div><div class="row__p">40</div></div>
+          <div class="row single"><div class="row__name"><b>Gura tea</b><span class="fa">چای گوره</span></div><div class="row__p">50</div></div>
+          <div class="row single"><div class="row__name"><b>Kashmiri tea</b><span class="fa">چای کشمیر</span></div><div class="row__p">80</div></div>
+          <div class="row single"><div class="row__name"><b>Matka tea</b><span class="fa">چای متکه</span></div><div class="row__p">120</div></div>
+          <div class="row single"><div class="row__name"><b>Doodh patti</b><span class="fa">دوپتی چای</span></div><div class="row__p">30</div></div>
+          <div class="row single"><div class="row__name"><b>White coffee</b><span class="fa">وات کافی</span></div><div class="row__p">30</div></div>
+          <div class="row single"><div class="row__name"><b>Black coffee</b><span class="fa">بلک کافی</span></div><div class="row__p">60</div></div>
+          <div class="row single"><div class="row__name"><b>Milk</b><span class="fa">شیر سفید</span></div><div class="row__p">30</div></div>
+        </div>
+        <figure class="board__pic" style="margin:0"><img src="img/n-paratha.webp" alt="Stack of parathas with butter and chutneys" loading="lazy" decoding="async"><p>Hot parathas off the tawa, every morning.</p></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIP -->
+  <section class="vip" id="vip">
+    <div class="wrap vip__in">
+      <div>
+        <span class="crown"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 18h18M4 18 3 7l5 4 4-6 4 6 5-4-1 11"/></svg>Royal experience</span>
+        <h2 class="split">The Mama <em>VIP</em> platter.</h2>
+        <div class="vip__price">10,000<small>AF</small></div>
+        <p class="vip__for">For 10 or more guests. <span class="fa" style="color:var(--brass)">تجربه به یادماندنی</span></p>
+        <ul class="vip__list">
+          <li><span>4×</span>Degi chicken</li>
+          <li><span>4×</span>Biryani</li>
+          <li><span>4×</span>Special kabab</li>
+          <li><span>4×</span>Boti kabab</li>
+          <li><span>1×</span>Chicken kabab</li>
+          <li><span>2kg</span>Chicken handi</li>
+          <li><span>·</span>Kabuli pulao</li>
+          <li><span>·</span>Mama special juice</li>
+          <li><span>·</span>Fruit salad</li>
+          <li><span>·</span>Fresh salad</li>
+          <li><span>·</span>Mama special firni</li>
+          <li><span>·</span>Sheer khurma</li>
+          <li><span>·</span>Soft drinks</li>
+          <li><span>·</span>Lemon & honey tea</li>
+          <li><span>·</span>Orange & honey tea</li>
+        </ul>
+        <div style="margin-top:34px"><a class="btn btn--solid magnetic" href="#contact">Reserve the VIP platter</a></div>
+      </div>
+      <div class="vip__pic tilt"><img src="img/n-vip.webp" alt="The full VIP spread: platters, kababs, juices, fruit and drinks" loading="lazy" decoding="async"></div>
+    </div>
+  </section>
+
+  <div class="promise">
+    <div><b>Fresh ingredients</b><span class="fa">مواد تازه و با کیفیت</span></div>
+    <div><b>Master chefs</b><span class="fa">دستپخت استادان حرفه‌ای</span></div>
+    <div><b>Calm setting</b><span class="fa">محیط آرام و دلنشین</span></div>
+    <div><b>Fast, warm service</b><span class="fa">سرویس سریع و محترمانه</span></div>
+  </div>
+
+  <!-- VISIT -->
+  <section class="visit wrap" id="visit">
+    <p class="eyebrow">05 · Visit & order</p>
+    <h2 class="split" style="margin-top:18px">Bring your <em>appetite.</em></h2>
+    <p>Order a platter, book the VIP table or ask what's in the degi today. Call, send a WhatsApp or find us at Sarsabzi Square in Kabul.</p>
+    <div class="visit__ctas">
+      <a class="btn btn--solid magnetic" href="tel:+93772683533">Call +93 77 268 3533</a>
+      <a class="btn magnetic" href="https://wa.me/93772683533" target="_blank" rel="noopener">WhatsApp us</a>
+    </div>
+    
+    <div class="contact" id="contact">
+      <div class="ccard">
+        <p class="eyebrow">Find us · آدرس</p>
+        <address>
+          <span class="fa-addr">کابل، چهارراهی سرسبزی، مقابل هوتل شام پاریس، منزل تحتانی کلینیک زیبایی احمدزی</span>
+          <span class="en">Sarsabzi Square, opposite Sham Paris Hotel, ground floor of the Ahmadzai Beauty Clinic building. Kabul, Afghanistan.</span>
+        </address>
+        <div class="cbtns"><a class="btn btn--solid" href="https://www.google.com/maps/search/?api=1&amp;query=Sarsabzi+Square+Sham+Paris+Hotel+Kabul" target="_blank" rel="noopener">Open in Google Maps</a></div>
+      </div>
+      <div class="ccard">
+        <p class="eyebrow">Call or WhatsApp · تماس</p>
+        <div class="big" id="phone">+93 77 268 3533</div>
+        <div class="cbtns">
+          <a class="btn btn--solid" href="tel:+93772683533">Call</a>
+          <a class="btn" href="https://wa.me/93772683533" target="_blank" rel="noopener">WhatsApp</a>
+          <button class="btn copy" type="button" data-copy="+93 77 268 3533">Copy</button>
+        </div>
+        <p class="eyebrow" style="margin-top:8px">Email</p>
+        <div class="big mail">Idreesshirzai@gmail.com</div>
+        <div class="cbtns">
+          <a class="btn" href="mailto:Idreesshirzai@gmail.com">Write an email</a>
+          <button class="btn copy" type="button" data-copy="Idreesshirzai@gmail.com">Copy</button>
+        </div>
+        <div class="copied" aria-live="polite"></div>
+      </div>
+      <div class="ccard">
+        <p class="eyebrow">Follow · ما را دنبال کنید</p>
+        <div class="socials">
+          <a class="social" href="https://www.instagram.com/mama_degi/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>
+            <div><b>Instagram</b><span>@mama_degi</span></div>
+          </a>
+          <a class="social" href="https://www.facebook.com/people/%D9%85%D8%A7%D9%85%D8%A7-%D8%AF%DB%8C%DA%AF%D9%8A-%DA%86%D8%B1%DA%AF-%D8%A7%D9%88-%D8%A8%D8%B1%DB%8C%D8%A7%D9%86%DB%8C/61590916641067/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg>
+            <div><b>Facebook</b><span class="fa" style="text-align:left">ماما دیگی چرگ او بریانی</span></div>
+          </a>
+          <a class="social" href="https://wa.me/93772683533" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"/><path d="M9 9.5c.3 2 2.5 4.2 4.5 4.5l1-1.2 2 .9c-.2 1.3-1.2 2-2.5 1.8-3.3-.5-6-3.2-6.5-6.5-.2-1.3.5-2.3 1.8-2.5l.9 2L9 9.5z"/></svg>
+            <div><b>WhatsApp</b><span>+93 77 268 3533</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="bigfa" aria-hidden="true" id="bigfa">ماما دیگی</div>
+  </section>
+</main>
+
+
+<nav class="mbar" id="mbar" aria-label="Quick actions">
+  <a href="tel:+93772683533"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Call</a>
+  <a href="https://wa.me/93772683533" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"/></svg>WhatsApp</a>
+  <a class="go" href="#menu">See menu</a>
+</nav>
+<footer class="wrap foot">
+  <span>© 2026 Mama Degi · ماما دیگی چرگه او بریانی</span>
+  <span>Sarsabzi Square, Kabul · <a href="tel:+93772683533">+93 77 268 3533</a> · <a href="https://www.instagram.com/mama_degi/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.facebook.com/people/%D9%85%D8%A7%D9%85%D8%A7-%D8%AF%DB%8C%DA%AF%D9%8A-%DA%86%D8%B1%DA%AF-%D8%A7%D9%88-%D8%A8%D8%B1%DB%8C%D8%A7%D9%86%DB%8C/61590916641067/" target="_blank" rel="noopener">Facebook</a></span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+  const hasGsap = !!window.gsap;
+  if(!reduce) document.documentElement.classList.add('js');
+  if(hasGsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- Hero video (desktop / mobile), with graceful fallback to the photo ---------- */
+  const media = document.getElementById('heroMedia'), vid = document.getElementById('heroVideo'), flash = document.getElementById('flash');
+  const portrait = matchMedia('(max-aspect-ratio: 4/5)').matches;
+  vid.src = portrait ? 'hero-mobile.mp4' : 'hero-desktop.mp4';
+  if(portrait) document.getElementById('heroImg').src = 'img/hero-poster-m.webp';
+  vid.addEventListener('canplay', () => { media.classList.add('has-video'); vid.play().catch(()=>{}); }, {once:true});
+  vid.addEventListener('error', () => media.classList.remove('has-video'));
+  // soft loop: dip to dark just before the clip restarts
+  vid.addEventListener('timeupdate', () => {
+    if(!vid.duration) return;
+    const left = vid.duration - vid.currentTime;
+    flash.style.opacity = left < .45 ? .55 : 0;
+  });
+  new IntersectionObserver(e=>{ if(!media.classList.contains('has-video')) return; e[0].isIntersecting ? vid.play().catch(()=>{}) : vid.pause(); }).observe(media);
+  vid.addEventListener('ended', () => { vid.currentTime = 0; vid.play().catch(()=>{}); });
+
+  /* ---------- WebGL steam ---------- */
+  (function steam(){
+    if(reduce) return;
+    const c = document.getElementById('steam'); const gl = c.getContext('webgl',{premultipliedAlpha:false,alpha:true});
+    if(!gl) return;
+    const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+    const fs = `precision mediump float;uniform vec2 r;uniform float t;
+      float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+      float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+      float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<3;i++){v+=a*n(p);p=p*2.02+vec2(1.7,9.2);a*=.5;}return v;}
+      void main(){vec2 uv=gl_FragCoord.xy/r;vec2 q=vec2(uv.x*r.x/r.y,uv.y);
+        q.y-=t*.06;q.x+=sin(uv.y*3.+t*.25)*.08;
+        float f=fbm(q*2.2+vec2(0.,-t*.12));f=fbm(q*1.6+f*1.8);
+        float col=smoothstep(.15,.6,uv.y)*smoothstep(1.05,.45,uv.y);
+        float mid=1.-smoothstep(.05,.62,abs(uv.x-.5));
+        float a=smoothstep(.48,.92,f)*col*(.35+.65*mid)*.55;
+        gl_FragColor=vec4(vec3(1.,.95,.86)*a,a);}`;
+    function sh(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;}
+    const pr = gl.createProgram(); gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs)); gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs)); gl.linkProgram(pr);
+    if(!gl.getProgramParameter(pr,gl.LINK_STATUS)) return;
+    gl.useProgram(pr);
+    const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr,'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+    const ur = gl.getUniformLocation(pr,'r'), ut = gl.getUniformLocation(pr,'t');
+    function size(){const d=innerWidth<820?.28:.4;c.width=c.clientWidth*d;c.height=c.clientHeight*d;gl.viewport(0,0,c.width,c.height);}
+    size(); addEventListener('resize',size);
+    let on = true; new IntersectionObserver(e=>on=e[0].isIntersecting).observe(c);
+    let last=0;(function f(ms){ if(on && ms-last>33){last=ms;gl.uniform2f(ur,c.width,c.height);gl.uniform1f(ut,ms/1000);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);} requestAnimationFrame(f);})(0);
+  })();
+
+  /* ---------- Embers ---------- */
+  (function embers(){
+    if(reduce) return;
+    const c = document.getElementById('embers'), x = c.getContext('2d'); let W,H,ps=[];
+    function size(){W=c.width=c.clientWidth;H=c.height=c.clientHeight;}
+    size(); addEventListener('resize',size);
+    const N = innerWidth < 700 ? 16 : 34;
+    const spr=document.createElement('canvas');spr.width=spr.height=24;const sx=spr.getContext('2d');const g=sx.createRadialGradient(12,12,0,12,12,12);g.addColorStop(0,'rgba(255,214,140,1)');g.addColorStop(.25,'rgba(243,170,80,.8)');g.addColorStop(1,'rgba(229,154,47,0)');sx.fillStyle=g;sx.fillRect(0,0,24,24);
+    for(let i=0;i<N;i++) ps.push({x:Math.random(),y:Math.random(),s:Math.random()*1.8+.4,v:Math.random()*.0012+.0004,w:Math.random()*6.28});
+    let on = true; new IntersectionObserver(e=>on=e[0].isIntersecting).observe(c);
+    let lt=0;(function f(ms){ if(on && ms-lt>33){ lt=ms; x.clearRect(0,0,W,H);
+      for(const p of ps){ p.y-=p.v*2; p.w+=.04; if(p.y<-.05){p.y=1.05;p.x=Math.random();}
+        const px=(p.x+Math.sin(p.w)*.01)*W, py=p.y*H, a=Math.min(1,p.y*1.4)*.9, r=p.s*6;
+        x.globalAlpha=a; x.drawImage(spr,px-r,py-r,r*2,r*2); } x.globalAlpha=1; }
+      requestAnimationFrame(f); })(0);
+  })();
+
+  /* ---------- Menu tabs ---------- */
+  const tabs = [...document.querySelectorAll('.tab')];
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(o => { o.setAttribute('aria-selected', o===t); document.getElementById(o.getAttribute('aria-controls')).hidden = o!==t; });
+    const p = document.getElementById(t.getAttribute('aria-controls'));
+    if(hasGsap && !reduce) gsap.fromTo(p.querySelectorAll('.row, .list__cols, .board__pic'),{y:18,opacity:.2},{y:0,opacity:1,duration:.6,stagger:.025,ease:'power3.out'});
+    if(window.ScrollTrigger) ScrollTrigger.refresh();
+  }));
+  document.querySelector('.tabs').addEventListener('keydown', e => {
+    const i = tabs.indexOf(document.activeElement); if(i<0) return;
+    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){ const n = tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length]; n.focus(); n.click(); }
+  });
+
+
+  /* ---------- Copy buttons ---------- */
+  document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', () => {
+    const t = b.dataset.copy, out = b.closest('.ccard').querySelector('.copied');
+    const done = () => { out.textContent = 'Copied: ' + t; setTimeout(()=>out.textContent='', 2500); };
+    const fallback = () => { const r = document.createRange(); const el = [...b.closest('.ccard').querySelectorAll('.big')].find(x=>x.textContent.trim()===t); if(el){ r.selectNodeContents(el); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); out.textContent='Selected. Press Cmd/Ctrl + C to copy.'; } };
+    try { navigator.clipboard.writeText(t).then(done, fallback); } catch(e){ fallback(); }
+  }));
+
+
+  /* ---------- Mobile: bottom bar + rail dots ---------- */
+  const mbar = document.getElementById('mbar');
+  const heroEl = document.querySelector('.hero');
+  addEventListener('scroll', () => mbar.classList.toggle('show', scrollY > heroEl.offsetHeight * .6), {passive:true});
+  const rail = document.getElementById('rail'), dots = document.getElementById('dots');
+  const cards = [...rail.querySelectorAll('.pcard')];
+  cards.forEach(()=>dots.append(document.createElement('i')));
+  const setDot = () => { const c = rail.scrollLeft + rail.clientWidth/2; let best=0,bd=1e9;
+    cards.forEach((k,i)=>{ const m=k.offsetLeft+k.offsetWidth/2; const d=Math.abs(m-c); if(d<bd){bd=d;best=i;} });
+    [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===best)); };
+  rail.addEventListener('scroll', setDot, {passive:true}); setDot();
+
+  /* ---------- Nav solid on scroll ---------- */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('is-solid', scrollY > 60);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  if(reduce || !hasGsap) { document.getElementById('loader')?.remove(); return; }
+
+  /* ---------- Smooth scroll ---------- */
+  let lenis = null;
+  if(window.Lenis){
+    lenis = new Lenis({lerp:.14, smoothWheel:true, syncTouch:false});
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t*1000)); gsap.ticker.lagSmoothing(0);
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      const id = a.getAttribute('href'); if(id.length<2) return; const el = document.querySelector(id); if(!el) return;
+      e.preventDefault(); lenis.scrollTo(el, {offset:-70});
+    }));
+  }
+
+  /* ---------- Cursor + magnetic buttons ---------- */
+  if(fine){
+    const cur = document.getElementById('cursor');
+    const xTo = gsap.quickTo(cur,'x',{duration:.25,ease:'power3'}), yTo = gsap.quickTo(cur,'y',{duration:.25,ease:'power3'});
+    addEventListener('mousemove', e => { xTo(e.clientX); yTo(e.clientY); });
+    document.querySelectorAll('a,button,.tilt').forEach(el => { el.addEventListener('mouseenter',()=>cur.classList.add('is-big')); el.addEventListener('mouseleave',()=>cur.classList.remove('is-big')); });
+    document.querySelectorAll('.magnetic').forEach(el => {
+      el.addEventListener('mousemove', e => { const r = el.getBoundingClientRect(); gsap.to(el,{x:(e.clientX-r.left-r.width/2)*.3,y:(e.clientY-r.top-r.height/2)*.4,duration:.4,ease:'power3'}); });
+      el.addEventListener('mouseleave', () => gsap.to(el,{x:0,y:0,duration:.7,ease:'elastic.out(1,.4)'}));
+    });
+    document.querySelectorAll('.tilt').forEach(el => {
+      el.addEventListener('mousemove', e => { const r = el.getBoundingClientRect(); const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
+        el.style.transform = `perspective(900px) rotateY(${px*10}deg) rotateX(${-py*10}deg) translateZ(0)`; });
+      el.addEventListener('mouseleave', () => el.style.transform = '');
+    });
+  }
+
+  /* ---------- Split headings into words ---------- */
+  document.querySelectorAll('.split').forEach(h => {
+    const walk = node => { [...node.childNodes].forEach(n => {
+      if(n.nodeType===3){ const frag=document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(w => { if(!w) return; if(/^\s+$/.test(w)){frag.append(w);return;}
+          const o=document.createElement('span');o.className='w';const i=document.createElement('span');i.textContent=w;o.append(i);frag.append(o);});
+        n.replaceWith(frag);
+      } else if(n.nodeType===1 && n.tagName!=='BR') walk(n); }); };
+    walk(h);
+  });
+  // hero title into characters
+  const ht = document.getElementById('heroTitle');
+  [...ht.childNodes].forEach(n => {
+    const target = n.nodeType===3 ? n : n.firstChild; if(!target) return;
+    const frag = document.createDocumentFragment();
+    [...target.textContent].forEach(ch => { const s=document.createElement('span'); s.className='ch'; s.textContent=ch===' '?' ':ch; frag.append(s); });
+    if(n.nodeType===3) n.replaceWith(frag); else { n.textContent=''; n.append(frag); }
+  });
+
+  /* ---------- Intro ---------- */
+  const loader = document.getElementById('loader'), count = document.getElementById('count');
+  let seen=false; try{seen=sessionStorage.getItem('md-intro')==='1'; sessionStorage.setItem('md-intro','1');}catch(e){}
+  const intro = gsap.timeline({defaults:{ease:'power3.out'}});
+  if(seen) intro.timeScale(3);
+  const ctr = {v:0};
+  intro.to('.loader__ring circle',{strokeDashoffset:0,duration:.7,ease:'power2.inOut'},0)
+       .to('.loader__ring img',{opacity:1,scale:1,duration:.4},.1)
+       .to(ctr,{v:100,duration:.7,ease:'power2.inOut',onUpdate:()=>count.textContent=Math.round(ctr.v)},0)
+       .to(loader,{yPercent:-100,duration:.6,ease:'expo.inOut'},.75)
+       .set(loader,{display:'none'})
+       .from('.hero__media',{scale:1.25,duration:2.2,ease:'expo.out'},.85)
+       .from('#heroTitle .ch',{yPercent:110,rotate:8,opacity:0,stagger:.045,duration:1.1,ease:'expo.out'},.95)
+       .from('.hero__fa',{opacity:0,y:30,filter:'blur(10px)',duration:1},1)
+       .from('.hero__lede, .hero__ctas > *, .hero__meta > *',{y:24,opacity:0,stagger:.07,duration:.8},1.15)
+       .from('.nav',{y:-30,opacity:0,duration:.7},1.1);
+
+  /* ---------- Hero parallax on scroll ---------- */
+  gsap.to('.hero__in',{yPercent:-18,opacity:.2,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  gsap.to('.hero__media',{yPercent:12,scale:1.06,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+
+  /* ---------- Marquee reacts to scroll velocity ---------- */
+  const marq = document.querySelector('.marquee');
+  const skewTo = gsap.quickTo(marq,'skewX',{duration:.4,ease:'power3'});
+  ScrollTrigger.create({onUpdate:self=>skewTo(-gsap.utils.clamp(-12,12,self.getVelocity()/250))});
+
+  /* ---------- Word reveals ---------- */
+  document.querySelectorAll('.split').forEach(h => {
+    if(h.closest('.hero')) return;
+    gsap.from(h.querySelectorAll('.w>span'),{yPercent:105,duration:1.1,ease:'expo.out',stagger:.06,scrollTrigger:{trigger:h,start:'top 85%'}});
+  });
+
+  const mm = gsap.matchMedia();
+
+  /* ---------- Degi: pinned 3D platter ---------- */
+  mm.add('(min-width: 821px)', () => {
+    const tl = gsap.timeline({scrollTrigger:{trigger:'#degiStage',start:'top top',end:'+=160%',scrub:.4,pin:true,anticipatePin:1}});
+    tl.fromTo('#plate',{rotateX:62,rotateZ:-38,scale:.62,y:80},{rotateX:0,rotateZ:0,scale:1,y:0,ease:'power2.out',duration:1})
+      .fromTo('.note--a',{x:-60,opacity:0},{x:0,opacity:1,duration:.3},.35)
+      .fromTo('.note--b',{x:60,opacity:0},{x:0,opacity:1,duration:.3},.55)
+      .fromTo('.note--c',{y:40,opacity:0},{y:0,opacity:1,duration:.3},.75)
+      .to('#plate',{rotateZ:24,duration:.6,ease:'none'},1);
+  });
+  mm.add('(max-width: 820px)', () => {
+    gsap.fromTo('#plate',{rotateX:50,rotateZ:-25,scale:.8},{rotateX:0,rotateZ:0,scale:1,ease:'none',scrollTrigger:{trigger:'#plate',start:'top 95%',end:'center 50%',scrub:true}});
+  });
+
+  /* ---------- Platters: pinned horizontal rail ---------- */
+  mm.add('(min-width: 821px)', () => {
+    const track = document.getElementById('railTrack');
+    const dist = () => track.scrollWidth - innerWidth;
+    gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:'#rail',start:'center center',end:()=>'+='+dist(),scrub:.4,pin:'#platters',invalidateOnRefresh:true,anticipatePin:1}});
+  });
+
+  /* ---------- Kitchen parallax + clip reveal ---------- */
+  document.querySelectorAll('.shot').forEach(s => {
+    gsap.from(s,{clipPath:'inset(18% 10% 18% 10% round 22px)',duration:1.4,ease:'expo.out',scrollTrigger:{trigger:s,start:'top 88%'}});
+    gsap.fromTo(s.querySelector('img'),{yPercent:-8},{yPercent:0,ease:'none',scrollTrigger:{trigger:s,start:'top bottom',end:'bottom top',scrub:true}});
+  });
+
+  /* ---------- Menu rows ---------- */
+  gsap.from('#p-street .row, #p-street .list__cols',{y:24,opacity:.2,stagger:.04,duration:.8,ease:'power3.out',scrollTrigger:{trigger:'#menu .tabs',start:'top 80%'}});
+
+  /* ---------- VIP ---------- */
+  gsap.from('.vip__list li',{x:-20,opacity:.15,stagger:.04,duration:.6,ease:'power2.out',scrollTrigger:{trigger:'.vip__list',start:'top 85%'}});
+  gsap.fromTo('.vip__pic',{rotateY:-18,rotateX:8,scale:.92},{rotateY:0,rotateX:0,scale:1,ease:'none',scrollTrigger:{trigger:'.vip',start:'top bottom',end:'center center',scrub:true}});
+
+  /* ---------- Big Dari wordmark ---------- */
+  gsap.fromTo('#bigfa',{xPercent:-12},{xPercent:8,ease:'none',scrollTrigger:{trigger:'.visit',start:'top bottom',end:'bottom top',scrub:true}});
+
+  addEventListener('load', () => ScrollTrigger.refresh());
+})();
+</script>
+
+</body>
+</html>
