@@ -102,8 +102,11 @@ p{margin:0}
   linear-gradient(180deg,rgba(12,9,6,.55) 0%,transparent 25%,transparent 55%,rgba(12,9,6,.9) 100%)}
 .hero__flash{position:absolute;inset:0;z-index:-1;background:var(--ink);opacity:0;pointer-events:none;transition:opacity .5s}
 .hero__in{padding-block:120px clamp(32px,6vh,72px);display:grid;gap:28px}
-.hero__fa{font-family:var(--f-fa);font-weight:900;font-size:clamp(56px,11vw,170px);line-height:1.05;color:transparent;background:linear-gradient(100deg,#8a6526 0%,var(--brass-hi) 30%,#b0823a 55%,var(--brass-hi) 75%,#8a6526 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;animation:shimmer 7s linear infinite;direction:rtl;text-align:right;filter:drop-shadow(0 8px 30px rgba(0,0,0,.6))}
+.hero__fa{position:relative;font-family:var(--f-fa);font-weight:900;font-size:clamp(56px,11vw,170px);line-height:1.05;color:transparent;background:linear-gradient(100deg,#8a6526 0%,var(--brass-hi) 30%,#b0823a 55%,var(--brass-hi) 75%,#8a6526 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;direction:rtl;text-align:right;filter:drop-shadow(0 8px 30px rgba(0,0,0,.6))}
 @keyframes shimmer{to{background-position:-220% 0}}
+.shine{position:relative;display:inline-block;overflow:hidden}
+.shine::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 35%,rgba(255,240,200,.55) 50%,transparent 65%);transform:translateX(-120%);mix-blend-mode:overlay;pointer-events:none;will-change:transform;animation:shinepass 6s cubic-bezier(.6,0,.2,1) 2.4s infinite}
+@keyframes shinepass{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
 .hero__title{font-size:clamp(54px,12.5vw,210px);letter-spacing:-.035em;line-height:.86;font-weight:500}
 .hero__title em{font-style:italic;font-weight:400;color:var(--brass-hi)}
 .hero__title .ch{display:inline-block;will-change:transform}
@@ -223,7 +226,7 @@ p{margin:0}
 @media (max-width:900px){.vip__in{grid-template-columns:1fr}}
 .crown{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border:1px solid var(--brass);border-radius:999px;font-family:var(--f-mono);font-size:12px;letter-spacing:.2em;color:var(--brass-hi);text-transform:uppercase}
 .vip h2{margin-block:22px 18px}
-.vip__price{font-family:var(--f-display);font-size:clamp(70px,12vw,180px);line-height:.9;letter-spacing:-.03em;color:transparent;background:linear-gradient(100deg,#8a6526,var(--brass-hi) 35%,#a97a32 60%,var(--brass-hi) 85%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;animation:shimmer 6s linear infinite;font-variant-numeric:lining-nums}
+.vip__price{font-family:var(--f-display);font-size:clamp(70px,12vw,180px);line-height:.9;letter-spacing:-.03em;color:transparent;background:linear-gradient(100deg,#8a6526,var(--brass-hi) 35%,#a97a32 60%,var(--brass-hi) 85%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;font-variant-numeric:lining-nums}
 .vip__price small{font-family:var(--f-mono);font-size:clamp(14px,1.4vw,18px);-webkit-text-fill-color:var(--muted);letter-spacing:.1em;margin-left:10px}
 .vip__for{color:var(--muted);margin-top:10px}
 .vip__list{columns:2;column-gap:28px;margin:30px 0 0;padding:0;list-style:none}
@@ -342,6 +345,10 @@ p{margin:0}
   .foot{padding-bottom:96px}
 }
 
+/* compositor hints */
+.hero__in,.hero__media,#plate,.rail__track,.marquee__track,.shot img,.vip__pic{will-change:transform;backface-visibility:hidden}
+.degi,.platters,.kitchen,.menu,.vip,.visit{contain:paint}
+.pcard{transition:border-color .3s}
 /* reveal helpers (visible by default; JS animates from a visible state) */
 .split .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}
 .split .w>span{display:inline-block}
@@ -647,7 +654,7 @@ p{margin:0}
         </ul>
         <div style="margin-top:34px"><a class="btn btn--solid magnetic" href="#contact">Reserve the VIP platter</a></div>
       </div>
-      <div class="vip__pic tilt"><img src="img/n-vip.webp" alt="The full VIP spread: platters, kababs, juices, fruit and drinks" loading="lazy" decoding="async"></div>
+      <div class="vip__pic"><img src="img/n-vip.webp" alt="The full VIP spread: platters, kababs, juices, fruit and drinks" loading="lazy" decoding="async"></div>
     </div>
   </section>
 
@@ -736,7 +743,7 @@ p{margin:0}
   const fine = matchMedia('(pointer: fine)').matches;
   const hasGsap = !!window.gsap;
   if(!reduce) document.documentElement.classList.add('js');
-  if(hasGsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+  if(hasGsap && window.ScrollTrigger) { gsap.registerPlugin(ScrollTrigger); ScrollTrigger.config({ignoreMobileResize:true}); gsap.config({force3D:true}); }
 
   /* ---------- Hero video (desktop / mobile), with graceful fallback to the photo ---------- */
   const media = document.getElementById('heroMedia'), vid = document.getElementById('heroVideo'), flash = document.getElementById('flash');
@@ -781,7 +788,7 @@ p{margin:0}
     function size(){const d=innerWidth<820?.28:.4;c.width=c.clientWidth*d;c.height=c.clientHeight*d;gl.viewport(0,0,c.width,c.height);}
     size(); addEventListener('resize',size);
     let on = true; new IntersectionObserver(e=>on=e[0].isIntersecting).observe(c);
-    let last=0;(function f(ms){ if(on && ms-last>33){last=ms;gl.uniform2f(ur,c.width,c.height);gl.uniform1f(ut,ms/1000);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);} requestAnimationFrame(f);})(0);
+    (function f(ms){ if(on){gl.uniform2f(ur,c.width,c.height);gl.uniform1f(ut,ms/1000);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);} requestAnimationFrame(f);})(0);
   })();
 
   /* ---------- Embers ---------- */
@@ -794,11 +801,11 @@ p{margin:0}
     const spr=document.createElement('canvas');spr.width=spr.height=24;const sx=spr.getContext('2d');const g=sx.createRadialGradient(12,12,0,12,12,12);g.addColorStop(0,'rgba(255,214,140,1)');g.addColorStop(.25,'rgba(243,170,80,.8)');g.addColorStop(1,'rgba(229,154,47,0)');sx.fillStyle=g;sx.fillRect(0,0,24,24);
     for(let i=0;i<N;i++) ps.push({x:Math.random(),y:Math.random(),s:Math.random()*1.8+.4,v:Math.random()*.0012+.0004,w:Math.random()*6.28});
     let on = true; new IntersectionObserver(e=>on=e[0].isIntersecting).observe(c);
-    let lt=0;(function f(ms){ if(on && ms-lt>33){ lt=ms; x.clearRect(0,0,W,H);
-      for(const p of ps){ p.y-=p.v*2; p.w+=.04; if(p.y<-.05){p.y=1.05;p.x=Math.random();}
+    (function f(){ if(on){ x.clearRect(0,0,W,H);
+      for(const p of ps){ p.y-=p.v; p.w+=.02; if(p.y<-.05){p.y=1.05;p.x=Math.random();}
         const px=(p.x+Math.sin(p.w)*.01)*W, py=p.y*H, a=Math.min(1,p.y*1.4)*.9, r=p.s*6;
         x.globalAlpha=a; x.drawImage(spr,px-r,py-r,r*2,r*2); } x.globalAlpha=1; }
-      requestAnimationFrame(f); })(0);
+      requestAnimationFrame(f); })();
   })();
 
   /* ---------- Menu tabs ---------- */
@@ -846,9 +853,9 @@ p{margin:0}
   /* ---------- Smooth scroll ---------- */
   let lenis = null;
   if(window.Lenis){
-    lenis = new Lenis({lerp:.14, smoothWheel:true, syncTouch:false});
+    lenis = new Lenis({lerp:.1, smoothWheel:true, wheelMultiplier:1, syncTouch:false});
     lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(t => lenis.raf(t*1000)); gsap.ticker.lagSmoothing(0);
+    gsap.ticker.add(t => lenis.raf(t*1000));
     document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
       const id = a.getAttribute('href'); if(id.length<2) return; const el = document.querySelector(id); if(!el) return;
       e.preventDefault(); lenis.scrollTo(el, {offset:-70});
@@ -866,9 +873,10 @@ p{margin:0}
       el.addEventListener('mouseleave', () => gsap.to(el,{x:0,y:0,duration:.7,ease:'elastic.out(1,.4)'}));
     });
     document.querySelectorAll('.tilt').forEach(el => {
-      el.addEventListener('mousemove', e => { const r = el.getBoundingClientRect(); const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
-        el.style.transform = `perspective(900px) rotateY(${px*10}deg) rotateX(${-py*10}deg) translateZ(0)`; });
-      el.addEventListener('mouseleave', () => el.style.transform = '');
+      gsap.set(el,{transformPerspective:900});
+      const rx = gsap.quickTo(el,'rotationX',{duration:.6,ease:'power3'}), ry = gsap.quickTo(el,'rotationY',{duration:.6,ease:'power3'});
+      el.addEventListener('mousemove', e => { const r = el.getBoundingClientRect(); ry(((e.clientX-r.left)/r.width-.5)*10); rx(-((e.clientY-r.top)/r.height-.5)*10); });
+      el.addEventListener('mouseleave', () => { rx(0); ry(0); });
     });
   }
 
@@ -910,7 +918,7 @@ p{margin:0}
 
   /* ---------- Hero parallax on scroll ---------- */
   gsap.to('.hero__in',{yPercent:-18,opacity:.2,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
-  gsap.to('.hero__media',{yPercent:12,scale:1.06,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+  gsap.to('.hero__media',{yPercent:12,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
 
   /* ---------- Marquee reacts to scroll velocity ---------- */
   const marq = document.querySelector('.marquee');
@@ -927,7 +935,7 @@ p{margin:0}
 
   /* ---------- Degi: pinned 3D platter ---------- */
   mm.add('(min-width: 821px)', () => {
-    const tl = gsap.timeline({scrollTrigger:{trigger:'#degiStage',start:'top top',end:'+=160%',scrub:.4,pin:true,anticipatePin:1}});
+    const tl = gsap.timeline({scrollTrigger:{trigger:'#degiStage',start:'top top',end:'+=160%',scrub:.8,pin:true,anticipatePin:1}});
     tl.fromTo('#plate',{rotateX:62,rotateZ:-38,scale:.62,y:80},{rotateX:0,rotateZ:0,scale:1,y:0,ease:'power2.out',duration:1})
       .fromTo('.note--a',{x:-60,opacity:0},{x:0,opacity:1,duration:.3},.35)
       .fromTo('.note--b',{x:60,opacity:0},{x:0,opacity:1,duration:.3},.55)
@@ -942,12 +950,12 @@ p{margin:0}
   mm.add('(min-width: 821px)', () => {
     const track = document.getElementById('railTrack');
     const dist = () => track.scrollWidth - innerWidth;
-    gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:'#rail',start:'center center',end:()=>'+='+dist(),scrub:.4,pin:'#platters',invalidateOnRefresh:true,anticipatePin:1}});
+    gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:'#rail',start:'center center',end:()=>'+='+dist(),scrub:.8,pin:'#platters',invalidateOnRefresh:true,anticipatePin:1}});
   });
 
   /* ---------- Kitchen parallax + clip reveal ---------- */
   document.querySelectorAll('.shot').forEach(s => {
-    gsap.from(s,{clipPath:'inset(18% 10% 18% 10% round 22px)',duration:1.4,ease:'expo.out',scrollTrigger:{trigger:s,start:'top 88%'}});
+    gsap.from(s,{y:60,scale:.94,opacity:0,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:s,start:'top 90%'}});
     gsap.fromTo(s.querySelector('img'),{yPercent:-8},{yPercent:0,ease:'none',scrollTrigger:{trigger:s,start:'top bottom',end:'bottom top',scrub:true}});
   });
 
